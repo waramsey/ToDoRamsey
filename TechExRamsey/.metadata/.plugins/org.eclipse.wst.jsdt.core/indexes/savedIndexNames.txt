@@ -1,0 +1,8 @@
+INDEX VERSION 1.4+C:\Users\Alex\workspace4830\TechExRamsey\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+4195638663.index
+3122388142.index
+2498250528.index
+149893341.index
+2393327869.index
+1384707849.index
+2737092465.index

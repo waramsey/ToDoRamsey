@@ -1,0 +1,4 @@
+database:  todoDB
+table:  todoTable
+user:  RemUSR
+password:  laughingmanticore

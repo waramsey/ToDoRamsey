@@ -14,17 +14,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/Insert")
-public class Insert extends HttpServlet {
+@WebServlet("/DeleteList")
+public class DeleteList extends HttpServlet {
    private static final long serialVersionUID = 1L;
 
-   public Insert() {
+   public DeleteList() {
       super();
    }
 
    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	   String listName = request.getParameter("listName");
-	   String taskName = request.getParameter("newTask");
 
 	   //Check if listName is a valid list
 	   Connection connection = null;
@@ -50,14 +49,12 @@ public class Insert extends HttpServlet {
 	         e.printStackTrace();
 	   }
 	   
-      String insertSql = " INSERT INTO " + listName + " (id, taskName, completed) values (default, ?, ?)";
+      String deleteSql = " DROP TABLE " + listName;
 
       try {
          DBConnection.getDBConnection();
          connection = DBConnection.connection;
-         PreparedStatement preparedStmt = connection.prepareStatement(insertSql);
-         preparedStmt.setString(1, taskName);
-         preparedStmt.setInt(2, 0); //initialize completed to false
+         PreparedStatement preparedStmt = connection.prepareStatement(deleteSql);
          preparedStmt.execute();
          connection.close();
       } catch (Exception e) {

@@ -34,6 +34,7 @@ public class CreateNewList extends HttpServlet {
 		String makeTable = " CREATE TABLE " + listName + " (\n" + 
 				"  id INT NOT NULL AUTO_INCREMENT,\n" + 
 				"  taskName VARCHAR(30) NOT NULL,\n" + 
+				"  completed BOOLEAN NOT NULL,\n" + 
 				"  PRIMARY KEY (id));"; //do i need this semicolon?
 	
 		try {
@@ -48,20 +49,7 @@ public class CreateNewList extends HttpServlet {
 		}
 		
 		
-		response.setContentType("text/html");
-	      PrintWriter out = response.getWriter();
-	      String title = "List Added!";
-	      String docType = "<!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">\n"; //
-	      out.println(docType + //
-	            "<html>\n" + //
-	            "<head><title>" + title + "</title></head>\n" + //
-	            "<body bgcolor=\"#f0f0f0\">\n" + //
-	            "<h1 align=\"center\">" + title + "</h1>\n");
-	      out.println("<ul>");
-	      out.println("<li> List Name: " + listName);
-	      out.println("</ul>");
-
-	      out.println("</body></html>");
+		Responder.respond(request, response);
 	}
 
 	/**

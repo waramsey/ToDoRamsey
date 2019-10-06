@@ -6,11 +6,11 @@
 	</head>
 	
 	<body>
-		<h1 class="title"> Things I need to do </h1>
-		<div class="all-tasks">
-			<h2 class="task-list-title">My lists</h2>
-			<ul class="task-list">
-				<li class="active-list">YouTube</li>
+		<h1> Todo List </h1>
+		<div>
+			<h2>My Lists</h2>
+			<ul>
+				<li>YouTube</li>
 				<li>Work</li>
 				<li>Grocery</li>
 			</ul>
@@ -18,33 +18,30 @@
 			<form action="CreateNewList" method="post">
 				<input
 					type="text"
-					class="newList"
 					name="newList"
 					placeholder="new list name"
 					aria-label="new list name"
 				/>
-				<button class="btn list" 
-				aria-label="create new list">+</button>
+				<button aria-label="create new list">+</button>
 			</form>
 		</div>
 		
-		<div class="todo-list">
-			<div class="todo-header">
-				<h2 class="list-title">YouTube</h2>
-				<p class="task-count">3 tasks remaining</p>
+		<div>
+			<div>
+				<h2>YouTube</h2>
 			</div>
 			
-			<div class="todo-body">
-				<div class="tasks">
-					<div class="task">
-						<input type="checkbox" id="task-1"/>
-						<label for="task-1">
-							<span class="custom-checkbox"></span>
-							record todo list video
-						</label>
+			<div>
+				<div>
+					<div>
+							<input type="checkbox" id="task-1"/>
+							<label for="task-1">
+								<span class="custom-checkbox"></span>
+								record todo list video
+							</label>	
 					</div>
-					
-					<div class="task">
+
+					<div>
 						<input type="checkbox" id="task-2"/>
 						<label for="task-2">
 							<span class="custom-checkbox"></span>
@@ -52,7 +49,7 @@
 						</label>
 					</div>
 					
-					<div class="task">
+					<div>
 						<input type="checkbox" id="task-3"/>
 						<label for="task-3">
 							<span class="custom-checkbox"></span>
@@ -60,22 +57,38 @@
 						</label>
 					</div>
 				</div>
-				<div class="new-task-creator">
+				<div>
 					<form id="Insert" action="Insert">
-					<input
-						type="text"
-						class="newTask"
-						name="newTask"
-						placeholder="new task name"
-						aria-label="new task name"
-					/>
-					<button class="btn task" 
-					aria-label="create new task">+</button>
+						<p>Add</p>
+						<input
+							type="text"
+							name="newTask"
+							placeholder="new task name"
+							aria-label="new task name"
+						/>
+						<p>to</p>
+						<input
+							type="text"
+							name="listName"
+							placeholder="list name"
+							aria-label="list name"
+						/>
+						<button aria-label="create new task">+</button>
 					</form>
 				</div>
-				<div class="delete-stuff">
-					<button class="btn delete">Clear completed tasks</button>
-					<button class="btn delete">Delete list</button>
+				<div>
+					<form id="clearTasks" action="clearTasks">
+						<button>Clear completed tasks</button>
+					</form>
+					<form id="DeleteList" action="DeleteList">
+						<input
+							type="text"
+							name="listName"
+							placeholder="list name"
+							aria-label="list name"
+						/>
+						<button>Delete list</button>	
+					</form>
 				</div>
 			</div>
 		</div>

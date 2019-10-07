@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,13 +10,17 @@ import javax.servlet.http.HttpServletResponse;
 
 public class Responder {
 
-	
+	private static String currentList;
 	
 	
 	
 	public static void respond(HttpServletRequest request, HttpServletResponse response) {
 		response.setContentType("text/html");
 	    PrintWriter out;
+	    
+	    if (currentList == null || currentList.contentEquals("Select A List!")) {
+	    	currentList = "Select A List!";
+	    }
 		try {
 			out = response.getWriter();
 			String title = "Todo List";
@@ -28,19 +33,15 @@ public class Responder {
 			    "<div class=\"all-tasks\"></div>\n" + //
 			    "<h2>My Lists</h2>\n" + //
 			    
-			    "<ul>" + getAllLists(request) +"</ul>\n" + //		TODO	just noting that this is a change
+"<ul><form id=\"Responder\" action=\"Responder\" method=\"ChooseList\">" + getAllLists(request) +"</form></ul>\n" + //		TODO	just noting that this is a change
 			    
 			    "<form action=\"CreateNewList\" method=\"post\">\n" + //
 			    "<input type=\"text\" name=\"newList\" placeholder=\"new list name\" aria-label=\"new list name\"/>\n" + //
 			    "<button aria-label=\"create new list\">+</button></form></div>\n" + //
 			    
-			    "<div><div><h2>YouTube</h2></div>\n" + //			TODO	THE NAME IN THIS H2 SHOULD BE VARIABLE
+			    "<div><div><h2>" + currentList + "</h2></div>\n" + //			TODO	just noting that this is a change
 			    
-			    "<div><div>" + //
-			    
-			    //TODO		THIS ENTIRE CHUNK SHOULD BE VARIABLE (TASK NAMES)
-			    "<div><input type=\"checkbox\" id=\"task-1\"/>\n" + //
-			    "<label for=\"task-1\"><span class=\"custom-checkbox\"></span>record todo list video</label></div>" + //
+			    "<div><div>" + TasksInTable(request) + //		TODO 	just noting that this is a change
 			    
 
 			    "</div><div><form id=\"Insert\" action=\"Insert\"><p>Add</p>\n" + //
@@ -70,12 +71,14 @@ public class Responder {
 		   try {
 			   DBConnection.getDBConnection();
 		       connection = DBConnection.connection;
-		       DatabaseMetaData md = connection.getMetaData();
-			   ResultSet rs = md.getTables(null, null, "%", null);
-			   
+		       PreparedStatement preparedStmt = connection.prepareStatement(
+		    		   "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES " + 
+		    		   "WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA='todoDB'");
+			   ResultSet rs = preparedStmt.executeQuery();
 			   String append = "";
 			   while (rs.next()) {
-				   append += "<li>" + rs.getString("TABLE_NAME") + "</li>"; //TODO resolve issue with getting more than just tables' names.
+				   append += "<li><button id=\"" + rs.getString("TABLE_NAME") + 
+						   "\" />" + rs.getString("TABLE_NAME") + "</button></li>"; //TODO resolve issue with getting more than just tables' names.
 			   }
 		       
 		       connection.close();			   
@@ -86,4 +89,35 @@ public class Responder {
 		   }
 		return null;
 	}
+	
+	private static String TasksInTable(HttpServletRequest request) {
+		Connection connection = null;
+
+		   try {
+			   DBConnection.getDBConnection();
+		       connection = DBConnection.connection;
+		       PreparedStatement preparedStmt = connection.prepareStatement("SELECT taskName FROM " + currentList);
+			   System.out.print(currentList);
+		       ResultSet rs = preparedStmt.executeQuery();
+			   
+			   String append = "";
+			   while (rs.next()) {
+				   append += "<div><input type=\"checkbox\" id=\"task-1\"/><label for=\"task-1\">" + rs.getString("taskName") + "</label></div>";
+			   }
+		       
+		       connection.close();			   
+			   
+			   return append;
+		   } catch (Exception e) {
+		         e.printStackTrace();
+		   }
+		return null;
+	}
+	
+	public static void ChooseList(String id) {
+		System.out.println("Hooray!  You got here!");
+		currentList = id;
+		//TODO How to update the html once this method is called?
+	}
+
 }

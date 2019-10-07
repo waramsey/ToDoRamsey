@@ -1,6 +1,5 @@
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -29,13 +28,14 @@ public class CreateNewList extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String listName = request.getParameter("newList");
+		listName = listName.replaceAll("\\s+", "");
 		
 		Connection connection = null;
 		String makeTable = " CREATE TABLE " + listName + " (\n" + 
 				"  id INT NOT NULL AUTO_INCREMENT,\n" + 
 				"  taskName VARCHAR(30) NOT NULL,\n" + 
 				"  completed BOOLEAN NOT NULL,\n" + 
-				"  PRIMARY KEY (id));"; //do i need this semicolon?
+				"  PRIMARY KEY (id));";
 	
 		try {
 			DBConnection.getDBConnection();

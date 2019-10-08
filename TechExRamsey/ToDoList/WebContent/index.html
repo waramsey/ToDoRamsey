@@ -6,91 +6,11 @@
 	</head>
 	
 	<body>
-		<h1> Todo List </h1>
+		<h1> Welcome to Todo List!</h1>
 		<div>
-			<h2>My Lists</h2>
-			<ul>
-				<li>YouTube</li>
-				<li>Work</li>
-				<li>Grocery</li>
-			</ul>
-			
-			<form action="CreateNewList" method="post">
-				<input
-					type="text"
-					name="newList"
-					placeholder="new list name"
-					aria-label="new list name"
-				/>
-				<button aria-label="create new list">+</button>
+			<form id="SelectTable" action="SelectTable" method="post">
+				<button aria-label="continue">Continue</button>
 			</form>
-		</div>
-		
-		<div>
-			<div>
-				<h2>YouTube</h2>
-			</div>
-			
-			<div>
-				<div>
-					<div>
-							<input type="checkbox" id="task-1"/>
-							<label for="task-1">
-								<span class="custom-checkbox"></span>
-								record todo list video
-							</label>	
-					</div>
-
-					<div>
-						<input type="checkbox" id="task-2"/>
-						<label for="task-2">
-							<span class="custom-checkbox"></span>
-							another task
-						</label>
-					</div>
-					
-					<div>
-						<input type="checkbox" id="task-3"/>
-						<label for="task-3">
-							<span class="custom-checkbox"></span>
-							a third task
-						</label>
-					</div>
-				</div>
-				<div>
-					<form id="Insert" action="Insert">
-						<p>Add</p>
-						<input
-							type="text"
-							name="newTask"
-							placeholder="new task name"
-							aria-label="new task name"
-						/>
-						<p>to</p>
-						<input
-							type="text"
-							name="listName"
-							placeholder="list name"
-							aria-label="list name"
-						/>
-						<button aria-label="create new task">+</button>
-					</form>
-				</div>
-				<div>
-					<form id="clearTasks" action="clearTasks">
-						<button>Clear completed tasks</button>
-					</form>
-					<form id="DeleteList" action="DeleteList">
-						<input
-							type="text"
-							name="listName"
-							placeholder="list name"
-							aria-label="list name"
-						/>
-						<button>Delete list</button>	
-					</form>
-				</div>
-			</div>
 		</div>
 	</body>
 </html>

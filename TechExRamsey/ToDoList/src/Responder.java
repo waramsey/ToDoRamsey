@@ -5,17 +5,20 @@ import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class Responder {
 
+	
 	private static String currentList;
+
 	
-	
-	
-	public static void respond(HttpServletRequest request, HttpServletResponse response) {
-		response.setContentType("text/html");
+	protected static void respond(HttpServletRequest request, HttpServletResponse response) {
+		response.setContentType("text/html");		
+		
 	    PrintWriter out;
 	    
 	    if (currentList == null || currentList.contentEquals("Select A List!")) {
@@ -33,24 +36,25 @@ public class Responder {
 			    "<div class=\"all-tasks\"></div>\n" + //
 			    "<h2>My Lists</h2>\n" + //
 			    
-"<ul><form id=\"Responder\" action=\"Responder\" method=\"ChooseList\">" + getAllLists(request) +"</form></ul>\n" + //		TODO	just noting that this is a change
+				"<ul><form id=\"SelectTable\" action=\"SelectTable\" method=\"get\">" + getAllLists(request) +"</ul>\n" + //		TODO	just noting that this is a change
+			    "<input type=\"text\" name=\"pickList\" placeholder=\"Pick A List\" aria-label=\"list name\"/>\n" + //
+			    "<button aria-label=\"pickList\">Go</button></form>" +
 			    
 			    "<form action=\"CreateNewList\" method=\"post\">\n" + //
-			    "<input type=\"text\" name=\"newList\" placeholder=\"new list name\" aria-label=\"new list name\"/>\n" + //
+			    "<input type=\"text\" name=\"newList\" placeholder=\"Add A List\" aria-label=\"Add A List\"/>\n" + //
 			    "<button aria-label=\"create new list\">+</button></form></div>\n" + //
 			    
 			    "<div><div><h2>" + currentList + "</h2></div>\n" + //			TODO	just noting that this is a change
 			    
 			    "<div><div>" + TasksInTable(request) + //		TODO 	just noting that this is a change
-			    
 
-			    "</div><div><form id=\"Insert\" action=\"Insert\"><p>Add</p>\n" + //
-			    "<input type=\"text\" name=\"newTask\" placeholder=\"new task name\" aria-label=\"new task name\"/>\n" + //
-			    "<p>to</p><input type=\"text\" name=\"listName\" placeholder=\"list name\" aria-label=\"list name\"/>\n" + //
+
+			    "</div><div><form id=\"Insert\" action=\"Insert\"><h3>Add...</h3>\n" + //
+			    "<input type=\"text\" name=\"newTask\" placeholder=\"New Task Name\" aria-label=\"New Task Name\"/>\n" + //
+			    "<h3>...to...</h3><input type=\"text\" name=\"listName\" placeholder=\"List Name\" aria-label=\"List Name\"/>\n" + //
 			    "<button aria-label=\"create new task\">+</button></form></div>\n" + //
-			    "<div><form id=\"clearTasks\" action=\"clearTasks\"><button>Clear completed tasks></button></form>\n" + //
-			    "<form id=\"DeleteList\" action=\"DeleteList\">\n" + //
-			    "<input type=\"text\" name=\"listName\" placeholder=\"list name\" aria-label=\"list name\"/>\n" + //
+			    "<div><h3>Delete</h3><form id=\"DeleteList\" action=\"DeleteList\">\n" + //
+			    "<input type=\"text\" name=\"listName\" placeholder=\"Delete A List\" aria-label=\"Delete A List\"/>\n" + //
 			    "<button>Delete list</button>\n" + //
 			    "</form></div></div></div></body></html>\n");
 		} catch (IOException e) {
@@ -58,6 +62,11 @@ public class Responder {
 			e.printStackTrace();
 		}
 	}
+	
+//	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//		doGet(request, response);
+//	}
+	
 	
 	/**
 	 * Retrieves all of the tables in the database and puts them
@@ -77,8 +86,7 @@ public class Responder {
 			   ResultSet rs = preparedStmt.executeQuery();
 			   String append = "";
 			   while (rs.next()) {
-				   append += "<li><button id=\"" + rs.getString("TABLE_NAME") + 
-						   "\" />" + rs.getString("TABLE_NAME") + "</button></li>"; //TODO resolve issue with getting more than just tables' names.
+				   append += "<li>" + rs.getString("TABLE_NAME") + "</li>"; //TODO resolve issue with getting more than just tables' names.
 			   }
 		       
 		       connection.close();			   
@@ -111,7 +119,7 @@ public class Responder {
 		   } catch (Exception e) {
 		         e.printStackTrace();
 		   }
-		return null;
+		return "<div><p>No List Selected</p></div>";
 	}
 	
 	public static void ChooseList(String id) {
